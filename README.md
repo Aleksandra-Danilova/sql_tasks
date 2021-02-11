@@ -1,2 +1,2 @@
 # sql_tasks
-Topics: grouping operators, regular expressions, hierarchy.
+Topics: grouping operators, regular expressions, hierarchy, data dictionary.
