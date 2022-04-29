@@ -1,29 +1,29 @@
 ﻿SELECT
         CASE
-            WHEN GROUPING(e.last_name) = 0 THEN TO_CHAR(e.row_num) --т.к. ROLLUP применялся для составных столбцов, то достаточно использовать один GROUPING
+            WHEN GROUPING(e.last_name) = 0 THEN TO_CHAR(e.row_num) --since ROLLUP was used for composite columns, it is enough to use one GROUPING
             ELSE ' '
         END 
-    AS "Номер п/п",
+    AS "Serial number",
         CASE
             WHEN GROUPING(e.last_name) = 0 THEN TO_CHAR(d.department_id) 
-            WHEN GROUPING(d.department_id) = 1 THEN 'Общее количество сотрудников в отделах'
-            ELSE 'Кол-во сотрудников в отделе'
+            WHEN GROUPING(d.department_id) = 1 THEN 'Total number of employees in departments'
+            ELSE 'Number of employees in the department'
         END
-    AS "Идентификатор отдела",
-        nvl(department_name, ' ') AS "Название отдела", --NVL - при выводе общего количества сотрудников в отделах
+    AS "Department ID",
+        nvl(department_name, ' ') AS "Department name", --NVL - when displaying the total number of employees in departments
         CASE
-            WHEN GROUPING(e.last_name) = 0 THEN LTRIM(nvl(e.first_name, '') || ' ' || e.last_name) --удаляем пробел, если у сотрудника нет имени
+            WHEN GROUPING(e.last_name) = 0 THEN LTRIM(nvl(e.first_name, '') || ' ' || e.last_name) --remove the space if the employee does not have a name
             ELSE TO_CHAR(COUNT(e.last_name)) 
         END
-    AS "Сотрудник"
+    AS "Employee"
 FROM
     departments d 
     JOIN (
-        SELECT --выбираем отсортированные данные вместе с псевдостолцом ROWNUM для колонки "Номер п/п"
+        SELECT --select the sorted data together with the ROWNUM pseudo column for the "Serial number" column
             e.first_name, e.last_name, e.department_id, ROWNUM AS row_num
         FROM
             (
-            --сортируем данные из обеих таблиц по названию отдела, имени и фамилии сотрудника
+            --sort the data from both tables by department name, first and last name of the employee
                 (SELECT e.first_name, e.last_name, e.department_id   
                 FROM
                     employees e
@@ -38,8 +38,8 @@ GROUP BY
     ROLLUP(
         (d.department_id, d.department_name),
         (e.first_name, e.last_name, e.row_num)
-    ) --применяем ROLLUP для составных столбцов
+    ) --using ROLLUP for composite columns
 ORDER BY
     d.department_name,
     e.first_name,
-    e.last_name; --сортировка по названию отдела, имени и фамилии сотрудника
+    e.last_name; --sorting by department name, employee's first and last name
