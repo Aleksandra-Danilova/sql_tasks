@@ -14,7 +14,7 @@ alphabet_sort AS (
           FROM str_to_column
           WHERE REGEXP_LIKE(col, '^[[:alpha:]]+$') --leave only elements with letters
           ORDER BY col))
---преобразование столбца в строку
+--transform a column to a row
 SELECT '&str' AS "Original string", LTRIM(SYS_CONNECT_BY_PATH(col, ','), ',') AS "Result" --delete the comma at the beginning of the line
     FROM (SELECT col, ROWNUM r FROM alphabet_sort)
     WHERE r = (SELECT COUNT(*) FROM alphabet_sort)
