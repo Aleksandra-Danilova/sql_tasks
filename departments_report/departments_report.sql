@@ -1,4 +1,4 @@
-SELECT
+SELECT 
         CASE
             WHEN GROUPING(e.last_name) = 0 THEN TO_CHAR(e.row_num) --since ROLLUP was used for composite columns, it is enough to use one GROUPING
             ELSE ' '
