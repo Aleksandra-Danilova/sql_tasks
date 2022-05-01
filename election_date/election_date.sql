@@ -1,4 +1,4 @@
-SELECT
+SELECT 
     '&given_date' AS "Input date",
     CASE
             --if the year is not a multiple of 4
