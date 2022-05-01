@@ -1,5 +1,5 @@
 WITH
-tables_without_pk AS ( -- of all the tables that have constraints, we leave those where there are any other than the primary key
+tables_without_pk AS ( -- among all the tables that have constraints, we leave those where there are any other than the primary key
     SELECT ut.table_name 
     FROM user_tables ut JOIN user_constraints uc ON ut.table_name = uc.table_name
         JOIN user_cons_columns ucc ON uc.constraint_name = ucc.constraint_name
