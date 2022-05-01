@@ -9,7 +9,7 @@ Solve the problem without using the Listagg and Wm_concat functions.
 
 ## Testing
 
-If there are no child tables, then the corresponding message is displayed.
+If there are no child tables or primary keys, then the corresponding message is displayed.
 
 There are totally 64 tables in my current scheme
 (
