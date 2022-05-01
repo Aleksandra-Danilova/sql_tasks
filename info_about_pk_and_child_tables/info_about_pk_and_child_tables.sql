@@ -11,7 +11,7 @@ tables_without_pk AS ( -- among all the tables that have constraints, we leave t
     WHERE uc.constraint_type = 'P'
     GROUP BY ut.table_name, uc.constraint_type),
 table_pk AS ( -- define the primary key columns for the user schema tables by alphabetically sorting the tables (for faster visual verification) and their primary keys
-    SELECT DISTINCT(ut.table_name ||  ucc.column_name) AS doubles, ut.table_name AS tab_name, ucc.column_name AS pk
+    SELECT DISTINCT(ut.table_name || ucc.column_name) AS doubles, ut.table_name AS tab_name, ucc.column_name AS pk
     FROM user_tables ut
     LEFT JOIN user_constraints uc
     ON ut.table_name = uc.table_name
